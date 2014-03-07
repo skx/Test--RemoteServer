@@ -1,0 +1,21 @@
+                    ========================================
+                       Test::RemoteServer
+                    ========================================
+
+Test::RemoteServer allows basic sysadmin checks of remote hosts.
+
+INSTALLATION
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+COPYRIGHT AND LICENCE
+
+Copyright (C) 2014 Steve Kemp <steve@steve.org.uk>.  All rights reserved.
+
+This library is free software. You can modify and or distribute it under the same terms as Perl itself.
+
