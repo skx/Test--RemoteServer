@@ -1,7 +1,7 @@
 --- #YAML:1.0
-name:                CGI-Session-Driver-redis
-version:             0.3
-abstract:            Persistent session data in CGI applications
+name:                Test-RemoteServer
+version:             0.1
+abstract:            Test routines for remote servers.
 license:             ~
 author:
     - Steve Kemp <steve@steve.org.uk>
