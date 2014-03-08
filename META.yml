@@ -10,6 +10,10 @@ distribution_type:   module
 requires:
     Net::DNS:
     Test::More:
+resources:
+  bugtracker: https://github.com/skx/Test-RemoteServer/issues
+  homepage: https://github.com/skx/Test-RemoteServer/
+  repository: https://github.com/skx/Test-RemoteServer.git
 meta-spec:
     url:     http://module-build.sourceforge.net/META-spec-v1.3.html
     version: 1.3
