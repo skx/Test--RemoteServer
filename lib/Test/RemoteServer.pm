@@ -93,7 +93,7 @@ use Test::Builder;
 use base "Exporter";
 
 our @EXPORT  = qw( ping_ok ping6_ok resolves socket_open socket_closed );
-our $VERSION = '0.1';
+our $VERSION = '0.2';
 
 
 #
