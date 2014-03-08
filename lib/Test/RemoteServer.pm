@@ -7,7 +7,10 @@ Test::RemoteServer - Test routines for remote servers.
 
 =head1 SYNOPSIS
 
-A module to carry out basic tests against remote servers.
+This module allows you to carry out basic tests against remote servers,
+and the following example should make usage clear:
+
+=for example begin
 
    use Test::More         tests => 4;
    use Test::RemoteServer;
@@ -22,6 +25,10 @@ A module to carry out basic tests against remote servers.
    ## Our domain shoudl resolve
    resolve( "example.com", "Our domain is unreachable!" );
 
+=for example end
+
+=cut
+
 =cut
 
 =head1 DESCRIPTION
@@ -30,11 +37,11 @@ C<Test::RemoteServer> allows you to use the C<Test::More> interface
 to carry out basic health-checks against remote systems.
 
 Currently the tests are only those that can be carried out without
-any authentication, or faking of source-address - testing ping responses,
-and that remote ports are open/closed as appropriate.
+any authentication, or faking of source-address.
 
 It would be interesting to be able to test ACLs such that a particular
 source address were able to connect to a host, but another was not.
+
 (i.e. To test that a firewall is adequately protecting access by
 source-IP).  However this kind of source-IP manipulation is not
 generally portable, and has to be ruled out on that basis.
@@ -45,14 +52,13 @@ generally portable, and has to be ruled out on that basis.
 =head1 USEFUL COMPANION MODULES
 
 If your tests are only to be carried out on the localhost you might
-enjoy L<Test::Server>.
+enjoy the L<Test::Server> module.
 
-If you wish to perform more comprehensive DNS tests you should
-investigate L<Test::DNS>.
+If you wish to perform more complex DNS tests you should investigate
+the L<Test::DNS> module.
 
-Finally there is an intruiging moduel L<Test::Varnish> which will examine
-the response of a remote HTTP-server and determine whether Varnish is
-being used.
+Finally there is the L<Test::Varnish> which will examine the response
+of a remote HTTP-server and determine whether Varnish is being used.
 
 =cut
 
@@ -154,6 +160,9 @@ sub ping6_ok ($$)
 =begin doc
 
 Test that a DNS request returns I<something>.
+
+See the L<Test::DNS> module if you wish to validate the actual returned
+results thoroughly.
 
 =end doc
 
