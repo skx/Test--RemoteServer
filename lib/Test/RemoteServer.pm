@@ -13,7 +13,7 @@ and the following example should make usage clear:
 
 =for example begin
 
-   use Test::More         tests => 4;
+   use Test::More         tests => 5;
    use Test::RemoteServer;
 
    ## testing ping responses
