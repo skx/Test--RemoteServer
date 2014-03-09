@@ -7,6 +7,12 @@ use warnings;
 use Test::More         tests => 5;
 use Test::RemoteServer;
 
+#
+# Change each timeout to 2 seconds, from the default of 5.
+#
+$Test::RemoteServer::TIMEOUT = 2;
+
+
 print "Running with $Test::RemoteServer::VERSION\n";
 
 ## testing ping responses

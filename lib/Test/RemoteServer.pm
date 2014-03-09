@@ -5,6 +5,7 @@ Test::RemoteServer - Test routines for remote servers.
 
 =cut
 
+
 =head1 SYNOPSIS
 
 This module allows you to carry out basic tests against remote servers,
@@ -33,6 +34,7 @@ and the following example should make usage clear:
 
 =cut
 
+
 =head1 DESCRIPTION
 
 C<Test::RemoteServer> allows you to use the C<Test::More> interface
@@ -47,6 +49,31 @@ source address were able to connect to a host, but another was not.
 (i.e. To test that a firewall is adequately protecting access by
 source-IP).  However this kind of source-IP manipulation is not
 generally portable, and has to be ruled out on that basis.
+
+=cut
+
+
+=head1 TIMEOUTS
+
+All the test-methods are carried out against remote hosts which might
+be slow, or even unreachable.  On that basis the tests are wrapped
+with timeouts.
+
+If you wish to change the default timeout, which is five seconds, please
+set the timeout value B<prior> to invoking any tests:
+
+=for example begin
+
+     use Test::More         tests => 5;
+     use Test::RemoteServer;
+
+     #
+     # Change each timeout to 20 seconds, from the default of 5.
+     #
+     $Test::RemoteServer::TIMEOUT = 20;
+
+
+=for example end
 
 =cut
 
@@ -70,6 +97,7 @@ of a remote HTTP-server and determine whether Varnish is being used.
 Steve Kemp <steve@steve.org.uk>
 
 =cut
+
 
 =head1 COPYRIGHT AND LICENSE
 
@@ -98,6 +126,12 @@ use base "Exporter";
 our @EXPORT =
   qw( ping_ok ping6_ok resolves ssh_auth_enabled ssh_auth_disabled socket_open socket_closed );
 our $VERSION = '0.3';
+
+
+#
+# Global timeout value
+#
+our $TIMEOUT = 5;
 
 
 #
@@ -223,7 +257,7 @@ sub socket_open($$$)
 
     eval {
         local $SIG{ ALRM } = sub {die "alarm\n"};
-        alarm 5;
+        alarm($Test::RemoteServer::TIMEOUT);
 
         my $sock = IO::Socket::INET->new( PeerAddr => $HOST,
                                           PeerPort => $PORT,
@@ -259,7 +293,7 @@ sub socket_closed($$$)
 
     eval {
         local $SIG{ ALRM } = sub {die "alarm\n"};
-        alarm 5;
+        alarm($Test::RemoteServer::TIMEOUT);
         my $sock = IO::Socket::INET->new( PeerAddr => $HOST,
                                           PeerPort => $PORT,
                                           Proto    => 'tcp'
@@ -363,28 +397,34 @@ sub _get_ssh_auth_types
     #
     my ( $fh, $tmp ) = tempfile();
 
-    #
-    # Connect to the remote host.
-    #
-    system("ssh -o PreferredAuthentications=none -p $port $host 2>$tmp >&2");
+    eval {
+        local $SIG{ ALRM } = sub {die "alarm\n"};
+        alarm($Test::RemoteServer::TIMEOUT);
 
-    #
-    #  Now look for the output
-    #
-    open( my $handle, "<", $tmp ) or
-      die "Failed to open tmp file $!";
+        #
+        # Connect to the remote host.
+        #
+        system(
+              "ssh -o PreferredAuthentications=none -p $port $host 2>$tmp >&2");
 
-    while ( my $line = <$handle> )
-    {
-        if ( $line =~ /\(([^(]+)\)/i )
+        #
+        #  Now look for the output
+        #
+        open( my $handle, "<", $tmp ) or
+          die "Failed to open tmp file $!";
+
+        while ( my $line = <$handle> )
         {
-            my $options = $1;
-            @types = split( /,/, $options );
+            if ( $line =~ /\(([^(]+)\)/i )
+            {
+                my $options = $1;
+                @types = split( /,/, $options );
+            }
         }
-    }
-    close($handle);
+        close($handle);
+    };
 
-    unlink($tmp);
+    unlink($tmp) if ( -e $tmp );
 
     return (@types);
 }
