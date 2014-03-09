@@ -213,23 +213,28 @@ sub resolves($$)
 
     my $ok = 0;
 
-    #
-    #  Crreate a resolver object, and fire a query against it.
-    #
-    my $res   = Net::DNS::Resolver->new;
-    my $query = $res->search($HOST);
+    eval {
+        local $SIG{ ALRM } = sub {die "alarm\n"};
+        alarm( $Test::RemoteServer::TIMEOUT );
 
-    #
-    #  If that didn't fail then we will bump the OK-count for each
-    # result.  (Since we don't care about NS, A, MX, & etc.)
-    #
-    if ($query)
-    {
-        foreach my $rr ( $query->answer )
+        #
+        #  Create a resolver object, and fire a query against it.
+        #
+        my $res   = Net::DNS::Resolver->new;
+        my $query = $res->search($HOST);
+
+        #
+        #  If that didn't fail then we will bump the OK-count for each
+        # result.  (Since we don't care about NS, A, MX, & etc.)
+        #
+        if ($query)
         {
-            $ok += 1;
+            foreach my $rr ( $query->answer )
+            {
+                $ok += 1;
+            }
         }
-    }
+    };
 
     $Test->ok( $ok, $description ) ||
       $Test->diag("Failed to resolve $HOST");
