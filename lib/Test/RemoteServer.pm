@@ -109,6 +109,13 @@ the same terms as Perl itself.
 =cut
 
 
+=head1 METHODS
+
+Now follows method-documentation
+
+=cut
+
+
 use warnings;
 use strict;
 
@@ -141,11 +148,10 @@ my $Test = Test::Builder->new;
 
 
 
-=begin doc
+=head2 ping_ok
 
-Test that a ping succeeds against the named host.
-
-=end doc
+Test that a ping succeeds against the named host, by executing the system's
+C<ping> binary.
 
 =cut
 
@@ -168,11 +174,10 @@ sub ping_ok ($$)
 }
 
 
-=begin doc
+=head2 ping6_ok
 
-Test that an IPv6 ping succeeds against the remote host.
-
-=end doc
+Test that a ping succeeds against the named host, by executing the system's
+C<ping6> binary.
 
 =cut
 
@@ -195,14 +200,22 @@ sub ping6_ok ($$)
 }
 
 
-=begin doc
+=head2 resolves
 
 Test that a DNS request returns I<something>.
 
-See the L<Test::DNS> module if you wish to validate the actual returned
-results thoroughly.
+Because this method doesn't test the actual nature of the resolved result
+it might be less useful than the L<Test::DNS> module, however it is a good
+starting point.
 
-=end doc
+Test the authors domain exists:
+
+=for example begin
+
+   ## Our domain should resolve
+   resolves( "steve.org.uk", "Our domain is unreachable!" );
+
+=for example end
 
 =cut
 
@@ -215,7 +228,7 @@ sub resolves($$)
 
     eval {
         local $SIG{ ALRM } = sub {die "alarm\n"};
-        alarm( $Test::RemoteServer::TIMEOUT );
+        alarm($Test::RemoteServer::TIMEOUT);
 
         #
         #  Create a resolver object, and fire a query against it.
@@ -243,12 +256,19 @@ sub resolves($$)
 }
 
 
-=begin doc
 
-Test that a socket connection can be established to the remote host/port
-pair.
+=head2 socket_open
 
-=end doc
+This method ensures that a socket connection may be established to the
+remote host/port pair.
+
+For example if you have a webserver you should expect it to be running:
+
+=for example begin
+
+socket_open( "www.example.com", 80, "HTTP should be enabled!" );
+
+=for example end
 
 =cut
 
@@ -279,12 +299,19 @@ sub socket_open($$$)
 }
 
 
-=begin doc
+=head2 socket_closed
 
-Test that a socket connection cannot be established to the remote host/port
-pair.
+This method ensures that a socket connection cannot be established to the
+remote host/port pair.
 
-=end doc
+For example if you believe that FTP is insecure you can ensure it isn't
+present via:
+
+=for example begin
+
+socket_closed( "localhost", 21, "FTP should be disabled!" );
+
+=for example end
 
 =cut
 
@@ -299,11 +326,12 @@ sub socket_closed($$$)
     eval {
         local $SIG{ ALRM } = sub {die "alarm\n"};
         alarm($Test::RemoteServer::TIMEOUT);
+
         my $sock = IO::Socket::INET->new( PeerAddr => $HOST,
                                           PeerPort => $PORT,
                                           Proto    => 'tcp'
                                         );
-        $ok = 0 unless ( $sock->connected() );
+        $ok = 0 if ( $sock->connected() );
     };
 
     $Test->ok( $ok, $description ) ||
@@ -313,11 +341,17 @@ sub socket_closed($$$)
 }
 
 
-=begin doc
+=head2 ssh_auth_enabled
 
-Ensure that the given SSH authentication-type is available.
+Ensure that the given SSH authentication-type is available.  For example
+you might want to test that public-key authentication is supported:
 
-=end doc
+=for example begin
+
+  ssh_auth_enabled( "test.example.com:2222", "publickey",
+                   "Key auth is missing");
+
+=for example end
 
 =cut
 
@@ -345,11 +379,17 @@ sub ssh_auth_enabled($$$)
 
 
 
-=begin doc
+=head2 ssh_auth_disabled
 
-Ensure that the given SSH authentication-type is NOT available.
+Ensure that the given SSH authentication-type is disabled.  For example
+you might want to test that password authentication is disabled:
 
-=end doc
+=for example begin
+
+  ssh_auth_disabled( "test.example.com:2222", "password",
+                     "Dictionary attacks are possible");
+
+=for example end
 
 =cut
 
