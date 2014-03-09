@@ -22,12 +22,14 @@ and the following example should make usage clear:
    ## There should be a HTTP server
    socket_open( "localhost", 80, "The webserver is dead!" );
 
-   ## Our domain shoudl resolve
+   ## Our domain should resolve
    resolve( "example.com", "Our domain is unreachable!" );
 
-=for example end
+   ## We don't want plaintext-password authentication.
+   ssh_auth_disabled( "host.example.com:2222", "password",
+                     "Password auth should be disabled");
 
-=cut
+=for example end
 
 =cut
 
@@ -86,14 +88,16 @@ use strict;
 package Test::RemoteServer;
 
 
+use File::Temp qw! tempfile !;
 use IO::Socket::INET;
 use Net::DNS;
 use Test::Builder;
 
 use base "Exporter";
 
-our @EXPORT  = qw( ping_ok ping6_ok resolves socket_open socket_closed );
-our $VERSION = '0.2';
+our @EXPORT =
+  qw( ping_ok ping6_ok resolves ssh_auth_enabled ssh_auth_disabled socket_open socket_closed );
+our $VERSION = '0.3';
 
 
 #
@@ -267,6 +271,122 @@ sub socket_closed($$$)
       $Test->diag("Connection succeeded to $HOST:$PORT");
 
     return $ok;
+}
+
+
+=begin doc
+
+Ensure that the given SSH authentication-type is available.
+
+=end doc
+
+=cut
+
+sub ssh_auth_enabled($$$)
+{
+    my $HOST        = shift;
+    my $type        = shift;
+    my $description = shift;
+
+    my $ok = 0;
+
+
+    my @valid = _get_ssh_auth_types($HOST);
+    foreach my $advertised (@valid)
+    {
+        $ok = 1 if ( $advertised eq $type );
+    }
+
+    $Test->ok( $ok, $description ) ||
+      $Test->diag(
+        "$type not seen as a valid authentication option $HOST - $description");
+
+    return $ok;
+}
+
+
+
+=begin doc
+
+Ensure that the given SSH authentication-type is NOT available.
+
+=end doc
+
+=cut
+
+sub ssh_auth_disabled($$$)
+{
+    my $HOST        = shift;
+    my $type        = shift;
+    my $description = shift;
+
+    my $ok = 1;
+
+
+    my @valid = _get_ssh_auth_types($HOST);
+    foreach my $advertised (@valid)
+    {
+        $ok = 0 if ( $advertised eq $type );
+    }
+
+    $Test->ok( $ok, $description ) ||
+      $Test->diag(
+            "$type was accepted as a valid authentication type - $description");
+
+    return $ok;
+}
+
+
+
+=begin doc
+
+Get the remote SSH authentication types.
+
+=end doc
+
+=cut
+
+sub _get_ssh_auth_types
+{
+    my ($host) = (@_);
+
+    my $port = 22;
+    if ( $host =~ /^(.*):([0-9]+)$/ )
+    {
+        $host = $1;
+        $port = $2;
+    }
+    my @types;
+
+    #
+    # Create a temporary file
+    #
+    my ( $fh, $tmp ) = tempfile();
+
+    #
+    # Connect to the remote host.
+    #
+    system("ssh -o PreferredAuthentications=none -p $port $host 2>$tmp >&2");
+
+    #
+    #  Now look for the output
+    #
+    open( my $handle, "<", $tmp ) or
+      die "Failed to open tmp file $!";
+
+    while ( my $line = <$handle> )
+    {
+        if ( $line =~ /\(([^(]+)\)/i )
+        {
+            my $options = $1;
+            @types = split( /,/, $options );
+        }
+    }
+    close($handle);
+
+    unlink($tmp);
+
+    return (@types);
 }
 
 

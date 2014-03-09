@@ -4,9 +4,10 @@
 use strict;
 use warnings;
 
-use Test::More         tests => 4;
+use Test::More         tests => 6;
 use Test::RemoteServer;
 
+print "Running with $Test::RemoteServer::VERSION\n";
 
 ## testing ping responses
 ping_ok("localhost", "Localhost is dead?" );
@@ -17,3 +18,9 @@ socket_open( "localhost", 80, "The webserver is dead!" );
 
 ## Our domain shoudl resolve
 resolves( "example.com", "Our domain is unreachable!" );
+
+## Test OpenSSH is secure.
+ssh_auth_enabled( "ssh.steve.org.uk:2222", "keyboard-interactive",
+                  "Password auth is present.");
+ssh_auth_disabled( "planet.debian-administration.org:2222", "password",
+                   "Password auth should be disabled");

@@ -2,3 +2,9 @@ Revision history for Perl module Test::RemoteServer
 
 0.1  Fri 07 Mar 2014
   - Initial release.
+
+0.2  Sat 08 Mar 2014
+  - POD Cleanups
+
+0.3  Sun 09 Mar 2014
+  - Added ssh_auth_enabled + ssh_auth_disabled methods.
