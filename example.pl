@@ -10,7 +10,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 7;
+use Test::More;
 use Test::RemoteServer;
 
 #
@@ -46,3 +46,7 @@ ssh_auth_disabled( "planet.debian-administration.org:2222",
                    "password", "Password auth should be disabled" );
 ssh_auth_enabled( "planet.debian-administration.org:2222",
                   "publickey", "Key auth is missing" );
+
+
+## All done.
+done_testing();
