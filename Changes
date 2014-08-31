@@ -10,3 +10,6 @@ Revision history for Perl module Test::RemoteServer
   - Added ssh_auth_enabled + ssh_auth_disabled methods.
   - Updated timeout handling.
   - Added comprehensive method documentation.
+
+0.4  Sun 31 Aug 2014
+  - Added github mirror
