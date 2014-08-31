@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                Test-RemoteServer
-version:             0.1
+version:             0.4
 abstract:            Test routines for remote servers.
 license:             ~
 author:
