@@ -36,7 +36,7 @@ sub checkFile
     return if ( $file =~ /(~|\.bak)$/ );
 
     # or Makefiles
-    return if ( $file =~ /Makefile$/ );
+    return if ( $file =~ /Makefile(.old)?$/ );
 
     # Nor about files which start with ./debian/
     return if ( $file =~ /^\.\/debian\// );
