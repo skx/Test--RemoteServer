@@ -13,3 +13,7 @@ Revision history for Perl module Test::RemoteServer
 
 0.4  Sun 31 Aug 2014
   - Added github mirror
+
+0.5 - 2nd September 2014
+  - Attempt to generate a correct META.yml file for the release.
+  - Added missing test-cases.
