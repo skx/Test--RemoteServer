@@ -1,11 +1,14 @@
 Changes
+example.pl
 lib/Test/RemoteServer.pm
 LICENSE
+Makefile.old
 Makefile.PL
 MANIFEST			This list of files
 MANIFEST.SKIP
+META.yml			Module meta-data (added by MakeMaker)
+MYMETA.yml
 README
-META.yml                                 Module meta-data (added by MakeMaker)
 t/perl-syntax.t
 t/style-no-tabs.t
 t/style-no-trailing-whitespace.t
