@@ -6,3 +6,7 @@ MANIFEST			This list of files
 MANIFEST.SKIP
 README
 META.yml                                 Module meta-data (added by MakeMaker)
+t/perl-syntax.t
+t/style-no-tabs.t
+t/style-no-trailing-whitespace.t
+t/test-pod-syntax.t
