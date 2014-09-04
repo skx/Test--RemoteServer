@@ -19,3 +19,6 @@ Revision history for Perl module Test::RemoteServer
 
 0.6 - 3rd September 2014
   - Attempt to generate a correct META.yml file for the release.
+
+0.7 - 4th September 2014
+  - Validated META.yml.

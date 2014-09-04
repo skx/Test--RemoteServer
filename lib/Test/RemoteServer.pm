@@ -132,7 +132,7 @@ use base "Exporter";
 
 our @EXPORT =
   qw( ping_ok ping6_ok resolves ssh_auth_enabled ssh_auth_disabled socket_open socket_closed );
-our $VERSION = '0.6';
+our $VERSION = '0.7';
 
 
 #
