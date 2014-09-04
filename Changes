@@ -22,3 +22,8 @@ Revision history for Perl module Test::RemoteServer
 
 0.7 - 4th September 2014
   - Validated META.yml.
+
+0.7.1 - 4th September 2014
+  - Don't run our t/style-no-tabs.t test twice.
+    Thanks to Syohei YOSHIDA
+
