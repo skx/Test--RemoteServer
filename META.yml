@@ -1,21 +1,30 @@
 --- #YAML:1.0
-name:                Test-RemoteServer
-version:             0.4
-abstract:            Test routines for remote servers.
-license:             ~
+name:               Test-RemoteServer
+version:            0.6
+abstract:           Test routines for remote servers.
 author:
     - Steve Kemp <steve@steve.org.uk>
-generated_by:        ExtUtils::MakeMaker version 6.42
-distribution_type:   module
+license:            perl
+distribution_type:  module
+configure_requires:
+    ExtUtils::MakeMaker:  0
+build_requires:
+    ExtUtils::MakeMaker:  0
 requires:
-    Net::DNS:
-    Test::More:
+    Net::DNS:       0
+    Test::Builder:  0
+    Test::More:     0
 resources:
-  license: http://dev.perl.org/licenses/
-  bugtracker: https://github.com/skx/Test-RemoteServer/issues
-  homepage: https://github.com/skx/Test-RemoteServer/
-  repository: https://github.com/skx/Test-RemoteServer.git
-  repository: http://git.steve.org.uk/cpan/Test--RemoteServer
+    bugtracker:  https://github.com/skx/Test-RemoteServer/issues
+    GitMirror:   http://git.steve.org.uk/cpan/Test--RemoteServer
+    homepage:    https://github.com/skx/Test-RemoteServer/
+    license:     http://dev.perl.org/licenses/
+    repository:  https://github.com/skx/Test-RemoteServer.git
+no_index:
+    directory:
+        - t
+        - inc
+generated_by:       ExtUtils::MakeMaker version 6.57_05
 meta-spec:
-    url:     http://module-build.sourceforge.net/META-spec-v1.4.html
-    version: 1.4
+    url:      http://module-build.sourceforge.net/META-spec-v1.4.html
+    version:  1.4

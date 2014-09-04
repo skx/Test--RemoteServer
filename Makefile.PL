@@ -15,7 +15,7 @@ WriteMakefile(
     PREREQ_PM    => \%prereq_pm,
     ABSTRACT     => 'Test routines for remote servers.',
     AUTHOR       => 'Steve Kemp <steve@steve.org.uk>',
-    LICENSE      => 'perl_5',
+    LICENSE      => 'perl',
 
     META_MERGE => {
         resources => {
@@ -23,7 +23,7 @@ WriteMakefile(
             homepage   => 'https://github.com/skx/Test-RemoteServer/',
             bugtracker => 'https://github.com/skx/Test-RemoteServer/issues',
             repository => 'https://github.com/skx/Test-RemoteServer.git',
-            Rep_mirror => 'http://git.steve.org.uk/cpan/Test--RemoteServer',
+            GitMirror  => 'http://git.steve.org.uk/cpan/Test--RemoteServer',
 
                      },
                   },
