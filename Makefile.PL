@@ -5,14 +5,22 @@ use lib './t/lib';
 use ExtUtils::MakeMaker;
 
 my %prereq_pm = ( 'Test::Builder' => 0,
-                  'Test::More'    => 0,
                   'Net::DNS'      => 0,
                 );
+
+my %test_pm = (
+               # solely for the test-suite.
+               'Test::More'       => 0,
+               'Test::Strict'     => 0,
+               'Test::Pod'        => 0,
+               'Test::NoTabs'     => 0,
+              );
 
 WriteMakefile(
     NAME         => 'Test::RemoteServer',
     VERSION_FROM => 'lib/Test/RemoteServer.pm',
     PREREQ_PM    => \%prereq_pm,
+    TEST_REQUIRES => \%test_pm,
     ABSTRACT     => 'Test routines for remote servers.',
     AUTHOR       => 'Steve Kemp <steve@steve.org.uk>',
     LICENSE      => 'perl',
