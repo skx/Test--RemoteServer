@@ -31,7 +31,6 @@ WriteMakefile(
             homepage   => 'https://github.com/skx/Test-RemoteServer/',
             bugtracker => 'https://github.com/skx/Test-RemoteServer/issues',
             repository => 'https://github.com/skx/Test-RemoteServer.git',
-            GitMirror  => 'http://git.steve.org.uk/cpan/Test--RemoteServer',
 
                      },
                   },

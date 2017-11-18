@@ -16,7 +16,6 @@ requires:
     Test::More:     0
 resources:
     bugtracker:  https://github.com/skx/Test-RemoteServer/issues
-    GitMirror:   http://git.steve.org.uk/cpan/Test--RemoteServer
     homepage:    https://github.com/skx/Test-RemoteServer/
     license:     http://dev.perl.org/licenses/
     repository:  https://github.com/skx/Test-RemoteServer.git
